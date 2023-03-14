@@ -1,0 +1,169 @@
+﻿@model ScoreboardLTN.Models.Team
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Team</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Score" class="control-label"></label>
+                <input asp-for="Score" class="form-control" />
+                <span asp-validation-for="Score" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label"></label>
+                <input asp-for="Time" class="form-control" />
+                <span asp-validation-for="Time" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GameId" class="control-label"></label>
+                <select asp-for="GameId" class ="form-control" asp-items="ViewBag.GameId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<div class="container">
+  <div class="left-box">
+    <h2>Left Box</h2>
+        <ul id="left-list">
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+    </ul>
+  </div>
+  <div class="right-box">
+    <h2>Right Box</h2>
+    <ul id="right-list"></ul>
+  </div>
+</div>
+
+<script>
+    const leftList = document.getElementById('left-list');
+    const rightList = document.getElementById('right-list');
+    const rightArrow = document.createElement('div');
+    const leftArrow = document.createElement('div');
+    const selectedItems = [];
+
+    rightArrow.className = 'arrow';
+    rightArrow.innerHTML = '&rarr;';
+    document.body.appendChild(rightArrow);
+
+    leftArrow.className = 'arrow';
+    leftArrow.innerHTML = '&larr;';
+    document.body.appendChild(leftArrow);
+
+    rightArrow.addEventListener('click', () => {
+        for (let i = 0; i < selectedItems.length; i++) {
+            const selectedItem = selectedItems[i];
+            selectedItem.classList.remove('selected');
+            rightList.appendChild(selectedItem);
+        }
+        selectedItems.length = 0;
+    });
+
+    leftArrow.addEventListener('click', () => {
+        for (let i = 0; i < selectedItems.length; i++) {
+            const selectedItem = selectedItems[i];
+            selectedItem.classList.remove('selected');
+            leftList.appendChild(selectedItem);
+        }
+        selectedItems.length = 0;
+    });
+
+    leftList.addEventListener('click', (event) => {
+        const clickedItem = event.target;
+        clickedItem.classList.toggle('selected');
+        if (selectedItems.includes(clickedItem)) {
+            const index = selectedItems.indexOf(clickedItem);
+            selectedItems.splice(index, 1);
+}     else {
+selectedItems.push(clickedItem);
+}
+});
+
+rightList.addEventListener('click', (event) => {
+const clickedItem = event.target;
+clickedItem.classList.toggle('selected');
+if     (selectedItems.includes(clickedItem)) {
+const index = selectedItems.indexOf(clickedItem);
+selectedItems.splice(index, 1);
+} else {
+selectedItems.push(clickedItem);
+}
+});
+</script>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .selected{
+        background-color:hotpink;
+    }
+    .left-box, .right-box {
+        width: 45%;
+    }
+
+    .left-box {
+        border: 1px solid black;
+        padding: 10px;
+    }
+
+    .right-box {
+        border: 1px solid blue;
+        padding: 10px;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        list-style: none;
+        margin: 5px 0;
+    }
+
+    button {
+        margin: 5px;
+    }
+
+    .arrow {
+        display: block;
+        margin: 0 auto;
+        width: 30px;
+        height: 30px;
+        font-size: 24px;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 50%;
+        color: white;
+        background-color: blue;
+        cursor: pointer;
+    }
+</style>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
