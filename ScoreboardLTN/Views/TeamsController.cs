@@ -41,14 +41,15 @@ namespace ScoreboardLTN.Views
             {
                 return NotFound();
             }
-
+            var players = _context.Player.Where(x => x.TeamId == team.Id).ToList();
+            team.Players = players;
             return View(team);
         }
 
         // GET: Teams/Create
         public IActionResult Create()
         {
-            ViewData["GameId"] = new SelectList(_context.Game, "Id", "Name");
+            ViewData["GameId"] = new SelectList(_context.Game, "Id", "Id");
             return View();
         }
 
@@ -65,7 +66,7 @@ namespace ScoreboardLTN.Views
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GameId"] = new SelectList(_context.Game, "Id", "Name", team.GameId);
+            ViewData["GameId"] = new SelectList(_context.Game, "Id", "Id", team.GameId);
             return View(team);
         }
 
@@ -82,7 +83,7 @@ namespace ScoreboardLTN.Views
             {
                 return NotFound();
             }
-            ViewData["GameId"] = new SelectList(_context.Game, "Id", "Name", team.GameId);
+            ViewData["GameId"] = new SelectList(_context.Game, "Id", "Id", team.GameId);
             return View(team);
         }
 
@@ -118,7 +119,7 @@ namespace ScoreboardLTN.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GameId"] = new SelectList(_context.Game, "Id", "Name", team.GameId);
+            ViewData["GameId"] = new SelectList(_context.Game, "Id", "Id", team.GameId);
             return View(team);
         }
 

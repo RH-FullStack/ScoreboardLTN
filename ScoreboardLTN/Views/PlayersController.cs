@@ -48,7 +48,7 @@ namespace ScoreboardLTN.Views
         // GET: Players/Create
         public IActionResult Create()
         {
-            ViewData["TeamId"] = new SelectList(_context.Team, "Id", "Name");
+            ViewData["TeamId"] = new SelectList(_context.Team, "Id", "Id");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace ScoreboardLTN.Views
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeamId"] = new SelectList(_context.Team, "Id", "Name", player.TeamId);
+            ViewData["TeamId"] = new SelectList(_context.Team, "Id", "Id", player.TeamId);
             return View(player);
         }
 
@@ -82,7 +82,7 @@ namespace ScoreboardLTN.Views
             {
                 return NotFound();
             }
-            ViewData["TeamId"] = new SelectList(_context.Team, "Id", "Name", player.TeamId);
+            ViewData["TeamId"] = new SelectList(_context.Team, "Id", "Id", player.TeamId);
             return View(player);
         }
 
@@ -118,7 +118,7 @@ namespace ScoreboardLTN.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeamId"] = new SelectList(_context.Team, "Id", "Name", player.TeamId);
+            ViewData["TeamId"] = new SelectList(_context.Team, "Id", "Id", player.TeamId);
             return View(player);
         }
 

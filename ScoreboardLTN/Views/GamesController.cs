@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ScoreboardLTN.Data;
 using ScoreboardLTN.Models;
+using ScoreboardLTN.Models.ViewModels;
+using Newtonsoft.Json;
+using System.Text.Json;
+using NuGet.Protocol;
 
 namespace ScoreboardLTN.Views
 {
@@ -17,6 +21,42 @@ namespace ScoreboardLTN.Views
         public GamesController(ApplicationDbContext context)
         {
             _context = context;
+        }
+        public ActionResult GetScoreboard(int Id)
+        {
+            var teams = _context.Team.Where(x => x.GameId == Id).ToList();
+            List<Scoreboard> scoreboard = new List<Scoreboard>();
+            string score;
+            foreach (var team in teams)
+            {
+                if (team.Score != null)
+                {
+                    score = team.Score;
+                }
+                else
+                {
+                    score = team.Time;
+                }
+                Scoreboard tempScoreboard = new Scoreboard()
+                {
+                    TeamName = team.Name,
+                    TeamScore = score
+
+                };
+                scoreboard.Add(tempScoreboard);
+            }
+            if (scoreboard.Count() == 0 )
+            {
+                return BadRequest();
+            }
+            return PartialView("_Scoreboard", scoreboard);
+
+        }
+
+        public int GetAllGames()
+        {
+            var games = _context.Game.ToList().Count();
+            return games;
         }
 
         // GET: Games
@@ -39,7 +79,14 @@ namespace ScoreboardLTN.Views
             {
                 return NotFound();
             }
+            if (true)
+            {
 
+            }
+            
+            var teams = _context.Team.Where(x => x.GameId == game.Id).ToList();
+            game.Teams = teams;
+            
             return View(game);
         }
 

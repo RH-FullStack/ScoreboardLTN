@@ -2,7 +2,77 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <h1>HIGH SCORES</h1>
+    <div id="partial-view-container">
+    </div>
 </div>
+
+<script>
+
+
+    $(document).ready(function () {
+
+        callActionWithParam("/Games/GetScoreboard", "ID", 1, 10000);
+
+
+    })
+
+    function callActionWithParam(actionUrl, paramName, paramValue, delay) {
+        $.ajax({
+            url: actionUrl,
+            data: { [paramName]: paramValue },
+            success: function (result) {
+                $("#partial-view-container").html(result);
+                setTimeout(function () {
+                    callActionWithParam(actionUrl, paramName, paramValue + 1, delay);
+                }, delay);
+            },
+            error: function () {
+                setTimeout(function () {
+                    callActionWithParam(actionUrl, paramName, 1, delay);
+                }, delay);
+            }
+        });
+    }
+
+
+
+
+
+</script>
+<style>
+    #partial-view-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    h1{
+        text-align:center;
+    }
+    .TeamsWithScores:nth-child(1) {
+        font-size: 3rem;
+    }
+
+    .TeamsWithScores:nth-child(2) {
+        font-size: 2.5rem;
+    }
+
+    .TeamsWithScores:nth-child(3) {
+        font-size: 2rem;
+    }
+
+    .TeamsWithScores:nth-child(4) {
+        font-size: 1.5rem;
+    }
+
+
+
+
+
+
+    .TeamsWithScores {
+        width: 100vw;
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,10 @@
+﻿@model List<ScoreboardLTN.Models.ViewModels.Scoreboard>
+
+
+        @foreach (var score in Model)
+        {
+            <div class="TeamsWithScores">
+            <p>@score.TeamName</p>
+            <p>@score.TeamScore</p>
+            </div>
+        }
